@@ -108,7 +108,7 @@ get_buffer_mons <- function(CSVFILE) {
 
 
 buffer_mons_df <- plyr::ldply(csv_files, get_buffer_mons )
-write_csv(buffer_mons_df, "data/midewin_air_monitors_annual.csv")
+write_csv(buffer_mons_df, "data/midewin_ntgp_air_monitors_annual.csv")
 
 
 
@@ -366,6 +366,15 @@ mon_dat <- bind_rows(o3_mon_dat, pm_mon_dat)
 
 
 ggplot() +
+  geom_jitter(aes(x = Longitude, 
+                  y = Latitude, 
+                  shape = Parameter.Name), 
+              size = 2, 
+              height = 0.1,
+              width = 0.1,
+              color = "black",
+              fill = "darkgoldenrod3",
+              data = mon_dat) +
   geom_polygon(aes(long, lat, group = group, alpha = "200km buffer"),
                color = "black",
                size = 1,
@@ -377,15 +386,6 @@ ggplot() +
                fill = "darkgreen",
                data = unit_df) +
   scale_alpha_manual(name = NULL, values = c(0.4, 0.4)) +
-  geom_jitter(aes(x = Longitude, 
-                  y = Latitude, 
-                  shape = Parameter.Name), 
-              size = 3.5, 
-              height = 0.1,
-              width = 0.1,
-              color = "black",
-              fill = "darkgoldenrod3",
-              data = mon_dat) +
   theme_map() +
   labs(title = expression(paste("Locations of Ozone and ", PM[2.5], " Monitors", sep = ""))) +
   scale_shape_manual(name = NULL,
